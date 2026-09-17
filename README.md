@@ -1,50 +1,61 @@
-# Welcome to your Expo app 👋
+# ⛳ Mi Golf App
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+Aplicación móvil para reservar tee times en campos de golf españoles. Proyecto personal full-stack desarrollado con React Native y Supabase.
 
-## Get started
+## Por qué la construí
 
-1. Install dependencies
+Por dos motivos.
 
-   ```bash
-   npm install
-   ```
+**La oportunidad.** El pádel tiene Playtomic: una plataforma que ha resuelto la reserva de pistas con una experiencia de usuario sencilla y una adopción enorme. El golf en España no tiene todavía un equivalente con esa penetración, y la reserva de tee times sigue siendo fragmentada entre clubes. Soy jugador de golf y quería explorar ese hueco construyendo un prototipo funcional en lugar de quedarme en la idea.
 
-2. Start the app
+**El aprendizaje.** También quería medir hasta dónde puede llegar hoy alguien sin formación en desarrollo apoyándose en herramientas de IA, y entender de primera mano cómo encajan las piezas de un producto digital: base de datos, autenticación, interfaz y la lógica que las conecta.
 
-   ```bash
-   npx expo start
-   ```
+## Qué hace
 
-In the output, you'll find options to open the app in a
+- **Registro e inicio de sesión** con autenticación por email y contraseña.
+- **Listado de campos** con ubicación y precio de referencia.
+- **Disponibilidad en tiempo real**: al abrir un campo, la app consulta la base de datos y marca como ocupadas las franjas ya reservadas, impidiendo dobles reservas.
+- **Reserva con confirmación** mediante modal.
+- **Gestión de reservas propias**: cada usuario ve únicamente sus reservas, y puede cancelarlas para liberar la franja.
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
+## Stack
 
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
+| Capa | Tecnología |
+|---|---|
+| Frontend | React Native (Expo), TypeScript |
+| Navegación | Expo Router (file-based routing) |
+| Backend | Supabase — PostgreSQL + Auth |
 
-## Get a fresh project
+## Estructura
 
-When you're ready, run:
-
-```bash
-npm run reset-project
+```
+app/
+├── login.tsx          Autenticación (registro e inicio de sesión)
+├── (tabs)/index.tsx   Listado de campos disponibles
+├── detalles.tsx       Franjas horarias y reserva
+├── mis-reservas.tsx   Reservas del usuario y cancelación
+└── supabase.js        Cliente de Supabase
 ```
 
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
+## Cómo ejecutarlo
 
-## Learn more
+```bash
+npm install
+npx expo start
+```
 
-To learn more about developing your project with Expo, look at the following resources:
+Escanea el código QR con la app Expo Go, o ábrelo en un emulador de iOS o Android.
 
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
+Requiere un proyecto de Supabase con una tabla `reservas` con los campos: `id`, `campo_nombre`, `hora`, `usuario_nombre`, `user_id`, `created_at`.
 
-## Join the community
+## Estado actual y siguientes pasos
 
-Join our community of developers creating universal apps.
+Este es un proyecto de aprendizaje. Funciona de extremo a extremo, pero está deliberadamente acotado:
 
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+- El catálogo de campos y las franjas horarias están fijados en el código; no hay todavía panel de administración.
+- Las reservas no manejan fecha, solo hora: el siguiente paso natural es añadir un calendario.
+- La sesión no persiste entre reinicios de la app (`persistSession: false`), pendiente de migrar a almacenamiento seguro.
+
+---
+
+Desarrollado como proyecto personal por [Javier Herrera García](https://github.com/javier-herrera15).
